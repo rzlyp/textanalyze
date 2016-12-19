@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSSample</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<script type="text/javascript">
+    function check() {
+        var params = {
+            // Request parameters
+        };
+        var text = $("#body").val();
+        var documents =  [
+              {
+                "language": "en",
+                "id": "1",
+                "text": text
+              }
+            ];
+        $.ajax({
+            url: "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment?" + $.param(params),
+            beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","74f56f5e3fc6468f8064bb28fe902728");
+            },
+            type: "POST",
+            // Request body
+              data : JSON.stringify({documents : documents}),
+              success: function(data, status)
+                {
+                    document.getElementById('status').innerHTML = 'Score sentiment '+data.documents[0].score * 100;
+                    console.log(data); // Contains the suite
+                },
+                error: function(data,error)
+                {   document.getElementById('status').innerHTML = data.message;
+                }
+        });
+    }
+</script>
+<div class="form-group">
+  <h3>Text Analytics</h3>
+</div>
+
+<div class="col-md-6">
+    <form method="post">
+      <div class="form-group">
+
+        <textarea name="body" id="body" rows="3" class="form-control" onChange="check()"></textarea>
+      </div>
+      <div class="form-group">
+          <p id="status"></p>
+      </div>
+      <div class="form-group">
+          <button type="button" name="button" class="btn btn-primary">Tweet</button>
+      </div>
+    </form>
+
+</div>
+</body>
+</html>
