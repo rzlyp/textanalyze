@@ -1,8 +1,6 @@
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
 var router = require('./app/routes/api');
-app.use(bodyParser());
 app.set('view-engine','ejs');
 
 
