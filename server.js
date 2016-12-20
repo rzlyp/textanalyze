@@ -9,6 +9,7 @@ app.get('/cognitive',function(req,res){
 app.get('/',function(req,res){
     res.render('analyze.ejs');
 });
-app.listen(3000,function(){
-    console.log('running on 3000');
+var port = process.env.PORT || 4000;
+app.listen(port,function(){
+    console.log('listening on '+port);
 });
